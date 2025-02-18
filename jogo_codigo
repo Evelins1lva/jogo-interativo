@@ -1,0 +1,51 @@
+import tkinter as tk
+import random
+
+
+perguntas = [
+    {"pergunta": "Quantos patinhos há na tela?", "imagem": "patos.png", "resposta": 3, "opcoes": [2, 3, 4]},
+    {"pergunta": "Quantas maçãs há na cesta?", "imagem": "macas.png", "resposta": 2, "opcoes": [1, 2, 3]},
+]
+
+
+janela = tk.Tk()
+janela.title("Jogo de Matemática")
+
+
+pergunta_label = tk.Label(janela, text="", font=("Arial", 16))
+pergunta_label.pack()
+
+canvas = tk.Canvas(janela, width=200, height=200)
+canvas.pack()
+
+resposta_label = tk.Label(janela, text="", font=("Arial", 14), fg="green")
+resposta_label.pack()
+
+botoes = []
+
+def verificar_resposta(resposta, correta):
+    if resposta == correta:
+        resposta_label.config(text="Parabéns! 🎉", fg="green")
+    else:
+        resposta_label.config(text="Tente novamente! 😊", fg="red")
+
+def carregar_pergunta():
+    resposta_label.config(text="")
+    
+    pergunta_atual = random.choice(perguntas)
+    pergunta_label.config(text=pergunta_atual["pergunta"])
+    
+    for widget in botoes:
+        widget.destroy()
+    botoes.clear()
+
+    for opcao in pergunta_atual["opcoes"]:
+        botao = tk.Button(janela, text=opcao, font=("Arial", 14),
+                          command=lambda o=opcao: verificar_resposta(o, pergunta_atual["resposta"]))
+        botao.pack()
+        botoes.append(botao)
+
+
+carregar_pergunta()
+
+janela.mainloop()
